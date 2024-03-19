@@ -234,7 +234,7 @@ class TradeCard extends StatelessWidget {
                           style: TextStyle(
                             fontFamily: 'Outfit',
                             color: Color(0xFF14181B),
-                            fontSize: 36,
+                            fontSize: 24,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -266,7 +266,7 @@ class TradeCard extends StatelessWidget {
                           style: TextStyle(
                             fontFamily: 'Outfit',
                             color: Color(0xFF14181B),
-                            fontSize: 36,
+                            fontSize: 24,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
