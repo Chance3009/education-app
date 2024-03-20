@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:finance/Education/models/topics.dart';
 import 'package:finance/Education/screens/lesson_page.dart';
 
-class SubtopicCard extends StatelessWidget {
+class SubtopicCard extends StatefulWidget {
   final Subtopic subtopic;
-  final VoidCallback? onSubtopicCompletion; // Callback to notify parent of subtopic completion
+  final VoidCallback? onLessonCompletion;
 
-  const SubtopicCard({Key? key, required this.subtopic, this.onSubtopicCompletion}) : super(key: key);
+  const SubtopicCard({Key? key, required this.subtopic, this.onLessonCompletion}) : super(key: key);
 
+  @override
+  _SubtopicCardState createState() => _SubtopicCardState();
+}
+
+class _SubtopicCardState extends State<SubtopicCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -16,8 +21,8 @@ class SubtopicCard extends StatelessWidget {
       child: InkWell(
         onTap: () {
           int initialLessonIndex = 0;
-          for (int i = 0; i < subtopic.lessons.length; i++) {
-            if (!subtopic.lessons[i].isCompleted) {
+          for (int i = 0; i < widget.subtopic.lessons.length; i++) {
+            if (!widget.subtopic.lessons[i].isCompleted) {
               initialLessonIndex = i;
               break;
             }
@@ -26,13 +31,14 @@ class SubtopicCard extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) => LessonPage(
-                subtopic: subtopic,
+                subtopic: widget.subtopic,
                 initialLessonIndex: initialLessonIndex,
                 onLessonCompletion: () {
-                  // Notify parent widget of lesson completion
-                  if (onSubtopicCompletion != null) {
-                    onSubtopicCompletion!();
-                  }
+                  setState(() {
+                    if (widget.onLessonCompletion != null) {
+                      widget.onLessonCompletion!();
+                    }
+                  });
                 },
               ),
             ),
@@ -45,11 +51,11 @@ class SubtopicCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Icon(subtopic.icon),
+                  Icon(widget.subtopic.icon),
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
-                      subtopic.name,
+                      widget.subtopic.name,
                       style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -57,45 +63,38 @@ class SubtopicCard extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               LinearProgressIndicator(
-                value: _calculateProgress(subtopic),
+                value: _calculateProgress(widget.subtopic),
                 backgroundColor: Colors.grey[300],
                 valueColor: const AlwaysStoppedAnimation<Color>(Colors.lightGreen),
               ),
               const SizedBox(height: 10),
               Center(
                 child: Text(
-                  _isSubtopicCompleted(subtopic) ? 'Completed!' : 'In Progress',
+                  _isSubtopicCompleted(widget.subtopic) ? 'Completed!' : 'In Progress',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: _isSubtopicCompleted(subtopic) ? Colors.green : Colors.grey,
+                    color: _isSubtopicCompleted(widget.subtopic) ? Colors.green : Colors.grey,
                   ),
                 ),
               ),
               const SizedBox(height: 10),
-              // Remove ListView.builder for individual lesson items
-              // Use Column instead to make each item clickable
-              Column(
-                children: subtopic.lessons.map((lesson) {
-                  return InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => LessonPage(
-                            subtopic: subtopic,
-                            initialLessonIndex: subtopic.lessons.indexOf(lesson),
-                            onLessonCompletion: () {
-                              if (onSubtopicCompletion != null) {
-                                onSubtopicCompletion!();
-                              }
-                            },
-                          ),
-                        ),
-                      );
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: widget.subtopic.lessons.length,
+                itemBuilder: (context, index) {
+                  return LessonListItem(
+                    subtopic: widget.subtopic,
+                    lesson: widget.subtopic.lessons[index],
+                    onCompletionChanged: () {
+                      setState(() {
+                        if (widget.onLessonCompletion != null) {
+                          widget.onLessonCompletion!();
+                        }
+                      });
                     },
-                    child: LessonListItem(lesson: lesson),
                   );
-                }).toList(),
+                },
               ),
             ],
           ),
@@ -116,12 +115,31 @@ class SubtopicCard extends StatelessWidget {
 
 class LessonListItem extends StatelessWidget {
   final Lesson lesson;
+  final Subtopic subtopic; // Add reference to the parent Subtopic
+  final VoidCallback? onCompletionChanged;
 
-  const LessonListItem({Key? key, required this.lesson}) : super(key: key);
+  const LessonListItem({Key? key, required this.lesson, required this.subtopic, this.onCompletionChanged}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: () {
+        // Navigate to the lesson page when tapped
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LessonPage(
+              subtopic: subtopic, // Pass the parent Subtopic
+              initialLessonIndex: subtopic.lessons.indexOf(lesson), // Use the lesson index in the parent Subtopic
+              onLessonCompletion: () {
+                if (onCompletionChanged != null) {
+                  onCompletionChanged!();
+                }
+              },
+            ),
+          ),
+        );
+      },
       leading: Icon(
         lesson.isCompleted ? Icons.check_circle : Icons.radio_button_unchecked,
         color: lesson.isCompleted ? Colors.lightGreen : Colors.grey,
