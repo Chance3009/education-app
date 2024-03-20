@@ -4,7 +4,7 @@ import 'package:finance/Education/models/topics.dart';
 class LessonPage extends StatefulWidget {
   final Subtopic subtopic;
   final int initialLessonIndex;
-  final VoidCallback? onLessonCompletion; // Callback to notify parent of lesson completion
+  final VoidCallback? onLessonCompletion;
 
   const LessonPage({Key? key, required this.subtopic, required this.initialLessonIndex, this.onLessonCompletion}) : super(key: key);
 
@@ -36,6 +36,7 @@ class _LessonPageState extends State<LessonPage> {
             Expanded(
               child: PageView.builder(
                 itemCount: widget.subtopic.lessons.length,
+                controller: PageController(initialPage: currentLessonIndex), // Set initial page to selected lesson
                 onPageChanged: (index) {
                   setState(() {
                     currentLessonIndex = index;
