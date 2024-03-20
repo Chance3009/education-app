@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:finance/Education/models/topics.dart';
 import 'package:finance/Education/screens/topic_list_screen.dart';
+import 'package:finance/Education/screens/trade_page.dart';
 import 'package:finance/Education/widgets/topic_card.dart';
 
 class HomePageWidget extends StatefulWidget {
@@ -79,7 +80,8 @@ class ProfileSection extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-          const SizedBox(width: 20), // Add some spacing between profile pic and text
+          const SizedBox(
+              width: 20), // Add some spacing between profile pic and text
           Flexible(
             child: Align(
               alignment: const AlignmentDirectional(0, 0),
@@ -153,142 +155,152 @@ class TradeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      constraints: const BoxConstraints(
-        minWidth: 350,
-        maxWidth: double.infinity,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: const [
-          BoxShadow(
-            blurRadius: 4,
-            color: Color(0x33000000),
-            offset: Offset(0, 2),
-          )
-        ],
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: const Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 8),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 0, 12, 0),
-              child: Row(
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => TradePage(), 
+          ),
+        );
+      },
+      child: Container(
+        constraints: const BoxConstraints(
+          minWidth: 350,
+          maxWidth: double.infinity,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: const [
+            BoxShadow(
+              blurRadius: 4,
+              color: Color(0x33000000),
+              offset: Offset(0, 2),
+            )
+          ],
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: const Padding(
+          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 8),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 0, 12, 0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(16, 12, 12, 0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Go Trade',
+                            style: TextStyle(
+                              fontFamily: 'Outfit',
+                              color: Color(0xFF14181B),
+                              fontSize: 24,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
+                            child: Text(
+                              'Learn trading by trading',
+                              style: TextStyle(
+                                fontFamily: 'Plus Jakarta Sans',
+                                color: Color(0xFF57636C),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Icon(
+                      Icons.keyboard_arrow_right_rounded,
+                      color: Color(0xFF57636C),
+                      size: 24,
+                    ),
+                  ],
+                ),
+              ),
+              Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(16, 12, 12, 0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Go Trade',
-                          style: TextStyle(
-                            fontFamily: 'Outfit',
-                            color: Color(0xFF14181B),
-                            fontSize: 24,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
-                          child: Text(
-                            'Learn trading by trading',
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(16, 12, 0, 12),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '4',
                             style: TextStyle(
-                              fontFamily: 'Plus Jakarta Sans',
-                              color: Color(0xFF57636C),
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
+                              fontFamily: 'Outfit',
+                              color: Color(0xFF14181B),
+                              fontSize: 24,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
-                        ),
-                      ],
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
+                            child: Text(
+                              'Open Trade',
+                              style: TextStyle(
+                                fontFamily: 'Plus Jakarta Sans',
+                                color: Color(0xFF57636C),
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  Icon(
-                    Icons.keyboard_arrow_right_rounded,
-                    color: Color(0xFF57636C),
-                    size: 24,
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '\$93,000',
+                            style: TextStyle(
+                              fontFamily: 'Outfit',
+                              color: Color(0xFF14181B),
+                              fontSize: 24,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
+                            child: Text(
+                              'Portfolio Value',
+                              style: TextStyle(
+                                fontFamily: 'Plus Jakarta Sans',
+                                color: Color(0xFF57636C),
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(16, 12, 0, 12),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '4',
-                          style: TextStyle(
-                            fontFamily: 'Outfit',
-                            color: Color(0xFF14181B),
-                            fontSize: 24,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
-                          child: Text(
-                            'Open Trade',
-                            style: TextStyle(
-                              fontFamily: 'Plus Jakarta Sans',
-                              color: Color(0xFF57636C),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '\$93,000',
-                          style: TextStyle(
-                            fontFamily: 'Outfit',
-                            color: Color(0xFF14181B),
-                            fontSize: 24,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
-                          child: Text(
-                            'Portfolio Value',
-                            style: TextStyle(
-                              fontFamily: 'Plus Jakarta Sans',
-                              color: Color(0xFF57636C),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -315,7 +327,8 @@ class LearnSection extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const TopicListScreen()),
+                    MaterialPageRoute(
+                        builder: (context) => const TopicListScreen()),
                   );
                 },
                 child: const Text(
@@ -333,7 +346,7 @@ class LearnSection extends StatelessWidget {
             children: topics.map((topic) {
               return Padding(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: 8.0), // Adjust the padding as needed
+                    horizontal: 8.0), 
                 child: TopicCard(topic: topic),
               );
             }).toList(),

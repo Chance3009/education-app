@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:finance/Education/screens/lesson_page.dart';
 import 'package:flutter/material.dart';
 import 'package:finance/Education/models/topics.dart';
@@ -6,7 +8,7 @@ import 'package:finance/Education/widgets/subtopic_card.dart';
 class SubtopicListScreen extends StatefulWidget {
   final Topic topic;
 
-  const SubtopicListScreen({Key? key, required this.topic}) : super(key: key);
+  const SubtopicListScreen({super.key, required this.topic});
 
   @override
   _SubtopicListScreenState createState() => _SubtopicListScreenState();
@@ -43,7 +45,7 @@ class _SubtopicListScreenState extends State<SubtopicListScreen> {
                           subtopic: widget.topic.subtopics[index],
                           initialLessonIndex: initialLessonIndex,
                           onLessonCompletion: () {
-                            setState(() {}); // Update the UI when lesson completion state changes
+                            setState(() {}); 
                           },
                         ),
                       ),

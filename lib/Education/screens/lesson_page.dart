@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:finance/Education/models/topics.dart';
 
@@ -6,7 +8,7 @@ class LessonPage extends StatefulWidget {
   final int initialLessonIndex;
   final VoidCallback? onLessonCompletion;
 
-  const LessonPage({Key? key, required this.subtopic, required this.initialLessonIndex, this.onLessonCompletion}) : super(key: key);
+  const LessonPage({super.key, required this.subtopic, required this.initialLessonIndex, this.onLessonCompletion});
 
   @override
   _LessonPageState createState() => _LessonPageState();
@@ -36,7 +38,7 @@ class _LessonPageState extends State<LessonPage> {
             Expanded(
               child: PageView.builder(
                 itemCount: widget.subtopic.lessons.length,
-                controller: PageController(initialPage: currentLessonIndex), // Set initial page to selected lesson
+                controller: PageController(initialPage: currentLessonIndex), 
                 onPageChanged: (index) {
                   setState(() {
                     currentLessonIndex = index;
@@ -49,11 +51,11 @@ class _LessonPageState extends State<LessonPage> {
                       children: [
                         Text(
                           widget.subtopic.lessons[index].name,
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                         ),
                         Text(
                           widget.subtopic.lessons[index].content,
-                          style: TextStyle(fontSize: 16),
+                          style: const TextStyle(fontSize: 16),
                         ),
                         const SizedBox(height: 16),
                         ElevatedButton(
