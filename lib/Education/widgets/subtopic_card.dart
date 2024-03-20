@@ -4,8 +4,9 @@ import 'package:finance/Education/screens/lesson_page.dart';
 
 class SubtopicCard extends StatelessWidget {
   final Subtopic subtopic;
+  final VoidCallback? onSubtopicCompletion; // Callback to notify parent of subtopic completion
 
-  const SubtopicCard({Key? key, required this.subtopic}) : super(key: key);
+  const SubtopicCard({Key? key, required this.subtopic, this.onSubtopicCompletion}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +28,12 @@ class SubtopicCard extends StatelessWidget {
               builder: (context) => LessonPage(
                 subtopic: subtopic,
                 initialLessonIndex: initialLessonIndex,
+                onLessonCompletion: () {
+                  // Notify parent widget of lesson completion
+                  if (onSubtopicCompletion != null) {
+                    onSubtopicCompletion!();
+                  }
+                },
               ),
             ),
           );
@@ -65,13 +72,30 @@ class SubtopicCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: subtopic.lessons.length,
-                itemBuilder: (context, index) {
-                  return LessonListItem(lesson: subtopic.lessons[index]);
-                },
+              // Remove ListView.builder for individual lesson items
+              // Use Column instead to make each item clickable
+              Column(
+                children: subtopic.lessons.map((lesson) {
+                  return InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LessonPage(
+                            subtopic: subtopic,
+                            initialLessonIndex: subtopic.lessons.indexOf(lesson),
+                            onLessonCompletion: () {
+                              if (onSubtopicCompletion != null) {
+                                onSubtopicCompletion!();
+                              }
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                    child: LessonListItem(lesson: lesson),
+                  );
+                }).toList(),
               ),
             ],
           ),

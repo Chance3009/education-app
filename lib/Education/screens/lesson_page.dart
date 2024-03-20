@@ -4,10 +4,9 @@ import 'package:finance/Education/models/topics.dart';
 class LessonPage extends StatefulWidget {
   final Subtopic subtopic;
   final int initialLessonIndex;
+  final VoidCallback? onLessonCompletion; // Callback to notify parent of lesson completion
 
-  const LessonPage(
-      {Key? key, required this.subtopic, required this.initialLessonIndex})
-      : super(key: key);
+  const LessonPage({Key? key, required this.subtopic, required this.initialLessonIndex, this.onLessonCompletion}) : super(key: key);
 
   @override
   _LessonPageState createState() => _LessonPageState();
@@ -61,15 +60,14 @@ class _LessonPageState extends State<LessonPage> {
                             setState(() {
                               widget.subtopic.lessons[index].toggleCompletionStatus();
                             });
+                            if (widget.onLessonCompletion != null) {
+                              widget.onLessonCompletion!();
+                            }
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: widget.subtopic.lessons[index].isCompleted
-                                ? Colors.green
-                                : null,
+                            backgroundColor: widget.subtopic.lessons[index].isCompleted ? Colors.green : null,
                           ),
-                          child: Text(widget.subtopic.lessons[index].isCompleted
-                              ? 'Completed!'
-                              : 'Mark as Completed'),
+                          child: Text(widget.subtopic.lessons[index].isCompleted ? 'Completed!' : 'Mark as Completed'),
                         ),
                       ],
                     ),
@@ -98,9 +96,7 @@ class _LessonPageState extends State<LessonPage> {
                   height: index == currentLessonIndex ? 16 : 8,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: widget.subtopic.lessons[index].isCompleted
-                        ? Colors.green
-                        : Colors.grey,
+                    color: widget.subtopic.lessons[index].isCompleted ? Colors.green : Colors.grey,
                   ),
                 ),
               ),
